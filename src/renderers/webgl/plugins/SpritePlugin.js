@@ -249,7 +249,9 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 
 		gl.shaderSource( vertexShader, [
 
+			'#ifdef GL_ES',
 			'precision ' + renderer.getPrecision() + ' float;',
+			'#endif',
 
 			'uniform mat4 modelViewMatrix;',
 			'uniform mat4 projectionMatrix;',
@@ -287,7 +289,9 @@ THREE.SpritePlugin = function ( renderer, sprites ) {
 
 		gl.shaderSource( fragmentShader, [
 
+			'#ifdef GL_ES',
 			'precision ' + renderer.getPrecision() + ' float;',
+			'#endif',
 
 			'uniform vec3 color;',
 			'uniform sampler2D map;',

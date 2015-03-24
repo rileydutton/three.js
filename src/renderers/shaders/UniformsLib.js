@@ -97,7 +97,9 @@ THREE.UniformsLib = {
 		"shadowBias" : { type: "fv1", value: [] },
 		"shadowDarkness": { type: "fv1", value: [] },
 
-		"shadowMatrix" : { type: "m4v", value: [] }
+		// TODO: do we need an empty matrix here?
+		// maybe we should better allow an empty array here?
+		"shadowMatrix" : { type: "m4v", value: [ new THREE.Matrix4() ] }
 
 	}
 

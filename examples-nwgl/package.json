@@ -1,0 +1,15 @@
+{
+  "name": "test-node-webgl-three",
+  "version": "0.0.1",
+  "description": "node-webgl+three.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kabbi",
+  "license": "MIT",
+  "dependencies": {
+    "csg-node": "^1.0.1",
+    "node.three.js": "0.0.1"
+  }
+}

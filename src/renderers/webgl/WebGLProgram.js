@@ -158,8 +158,10 @@ THREE.WebGLProgram = ( function () {
 
 			prefix_vertex = [
 
-				'precision ' + parameters.precision + ' float;',
-				'precision ' + parameters.precision + ' int;',
+				"#ifdef GL_ES",
+				"precision " + parameters.precision + " float;",
+				"precision " + parameters.precision + " int;",
+				"#endif",
 
 				customDefines,
 
@@ -266,10 +268,12 @@ THREE.WebGLProgram = ( function () {
 
 			prefix_fragment = [
 
-				'precision ' + parameters.precision + ' float;',
-				'precision ' + parameters.precision + ' int;',
+				"#ifdef GL_ES",
+				"precision " + parameters.precision + " float;",
+				"precision " + parameters.precision + " int;",
+				"#endif",
 
-				( parameters.bumpMap || parameters.normalMap || parameters.flatShading ) ? '#extension GL_OES_standard_derivatives : enable' : '',
+				// ( parameters.bumpMap || parameters.normalMap || parameters.flatShading ) ? '#extension GL_OES_standard_derivatives : enable' : '',
 
 				customDefines,
 

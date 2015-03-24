@@ -195,7 +195,9 @@ THREE.LensFlarePlugin = function ( renderer, flares ) {
 
 				fragmentShader: [
 
+					"#ifdef GL_ES",
 					"precision mediump float;",
+					"#endif",
 
 					"uniform lowp int renderType;",
 
@@ -450,6 +452,7 @@ THREE.LensFlarePlugin = function ( renderer, flares ) {
 		var vertexShader = gl.createShader( gl.VERTEX_SHADER );
 
 		var prefix = "precision " + renderer.getPrecision() + " float;\n";
+		prefix = "#ifdef GL_ES" + prefix + "#endif\n";
 
 		gl.shaderSource( fragmentShader, prefix + shader.fragmentShader );
 		gl.shaderSource( vertexShader, prefix + shader.vertexShader );

@@ -25,9 +25,9 @@ THREE.ImageLoader.prototype = {
 
 		}
 
-		var image = document.createElement( 'img' );
+		var image = new WebGL.Image();
 
-		image.addEventListener( 'load', function ( event ) {
+		image.onload = function ( event ) {
 
 			THREE.Cache.add( url, this );
 
@@ -35,29 +35,29 @@ THREE.ImageLoader.prototype = {
 			
 			scope.manager.itemEnd( url );
 
-		}, false );
+		};
 
-		if ( onProgress !== undefined ) {
+		// TODO: all these are not supported in node-webgl
 
-			image.addEventListener( 'progress', function ( event ) {
+		// if ( onProgress !== undefined ) {
 
-				onProgress( event );
+		// 	image.addEventListener( 'progress', function ( event ) {
 
-			}, false );
+		// 		onProgress( event );
 
-		}
+		// 	}, false );
 
-		if ( onError !== undefined ) {
+		// }
 
-			image.addEventListener( 'error', function ( event ) {
+		// if ( onError !== undefined ) {
 
-				onError( event );
+		// 	image.onerror = function ( event ) {
 
-			}, false );
+		// 		onError( event );
 
-		}
+		// 	};
 
-		if ( this.crossOrigin !== undefined ) image.crossOrigin = this.crossOrigin;
+		// }
 
 		image.src = url;
 
@@ -69,7 +69,7 @@ THREE.ImageLoader.prototype = {
 
 	setCrossOrigin: function ( value ) {
 
-		this.crossOrigin = value;
+		// Is meaningless in node-webgl
 
 	}
 

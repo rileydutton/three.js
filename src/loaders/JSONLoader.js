@@ -27,90 +27,25 @@ THREE.JSONLoader.prototype.load = function ( url, callback, texturePath ) {
 
 THREE.JSONLoader.prototype.loadAjaxJSON = function ( context, url, callback, texturePath, callbackProgress ) {
 
-	var xhr = new XMLHttpRequest();
+	// TODO: add error reporting
 
-	var length = 0;
+	var json = require( url );
 
-	xhr.onreadystatechange = function () {
+	if ( json.metadata !== undefined && json.metadata.type === 'scene' ) {
 
-		if ( xhr.readyState === xhr.DONE ) {
+		console.error( 'THREE.JSONLoader: "' + url + '" seems to be a Scene. Use THREE.SceneLoader instead.' );
+		return;
 
-			if ( xhr.status === 200 || xhr.status === 0 ) {
+	}
 
-				if ( xhr.responseText ) {
+	var result = context.parse( json, texturePath );
+	callback( result.geometry, result.materials );
 
-					var json = JSON.parse( xhr.responseText );
-					var metadata = json.metadata;
+	// in context of more complex asset initialization
+	// do not block on single failed file
+	// maybe should go even one more level up
 
-					if ( metadata !== undefined ) {
-
-						if ( metadata.type === 'object' ) {
-
-							THREE.error( 'THREE.JSONLoader: ' + url + ' should be loaded with THREE.ObjectLoader instead.' );
-							return;
-
-						}
-
-						if ( metadata.type === 'scene' ) {
-
-							THREE.error( 'THREE.JSONLoader: ' + url + ' seems to be a Scene. Use THREE.SceneLoader instead.' );
-							return;
-
-						}
-
-					}
-
-					var result = context.parse( json, texturePath );
-					callback( result.geometry, result.materials );
-
-				} else {
-
-					THREE.error( 'THREE.JSONLoader: ' + url + ' seems to be unreachable or the file is empty.' );
-
-				}
-
-				// in context of more complex asset initialization
-				// do not block on single failed file
-				// maybe should go even one more level up
-
-				context.onLoadComplete();
-
-			} else {
-
-				THREE.error( 'THREE.JSONLoader: Couldn\'t load ' + url + ' (' + xhr.status + ')' );
-
-			}
-
-		} else if ( xhr.readyState === xhr.LOADING ) {
-
-			if ( callbackProgress ) {
-
-				if ( length === 0 ) {
-
-					length = xhr.getResponseHeader( 'Content-Length' );
-
-				}
-
-				callbackProgress( { total: length, loaded: xhr.responseText.length } );
-
-			}
-
-		} else if ( xhr.readyState === xhr.HEADERS_RECEIVED ) {
-
-			if ( callbackProgress !== undefined ) {
-
-				length = xhr.getResponseHeader( 'Content-Length' );
-
-			}
-
-		}
-
-	};
-
-	xhr.open( 'GET', url, true );
-	xhr.withCredentials = this.withCredentials;
-	xhr.send( null );
-
+	context.onLoadComplete();
 };
 
 THREE.JSONLoader.prototype.parse = function ( json, texturePath ) {
