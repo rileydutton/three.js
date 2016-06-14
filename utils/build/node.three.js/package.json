@@ -19,6 +19,6 @@
     }
   ],
   "dependencies": {
-    "node-webgl": "kabbi/node-webgl"
+    "node-webgl": "*"
   }
 }
